@@ -1,0 +1,51 @@
+# Makefile for compiling and running C server and Java client programs
+
+# Compiler for C server
+CC = gcc
+
+# Compiler flags for C server
+CFLAGS = -Wall -Wextra
+
+# Compiler for Java client
+JAVAC = javac
+
+# Source files directory for C server
+SERVER_SRC_DIR = server
+
+# Source files for C server
+SERVER_SRC = $(SERVER_SRC_DIR)/server.c
+
+# Output executable for C server
+SERVER_EXE = server
+
+# Source files for Java client
+CLIENT_SRC = Client.java
+
+# Output class file for Java client
+CLIENT_CLASS = Client.class
+
+# Default target
+all: $(SERVER_EXE) $(CLIENT_CLASS)
+
+# Target for compiling the C server program
+$(SERVER_EXE): $(SERVER_SRC)
+    $(CC) $(CFLAGS) -o $@ $^
+
+# Target for compiling the Java client program
+$(CLIENT_CLASS): $(CLIENT_SRC)
+    $(JAVAC) -Xlint:all $^
+
+# Target for running the C server program
+run_server: $(SERVER_EXE)
+    ./$(SERVER_EXE)
+
+# Target for running the Java client program
+run_client: $(CLIENT_CLASS)
+    java Client
+
+# Target for cleaning up generated files
+clean:
+    rm -f $(SERVER_EXE) $(CLIENT_CLASS)
+
+# Phony targets
+.PHONY: all run_server run_client clean
